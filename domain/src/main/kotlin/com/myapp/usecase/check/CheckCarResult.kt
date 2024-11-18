@@ -3,8 +3,10 @@ package com.myapp.usecase.check;
 import com.myapp.usecase.check.MaintenanceFrequency.*
 import com.myapp.usecase.check.MaintenanceScore.*
 
+data class CheckCarResult(val vin: String,
+                          val numberOfAccidents: Int?,
+                          val maintenanceFrequency: MaintenanceFrequency?) {
 
-data class CheckCarResult(val vin: String, val numberOfAccidents: Int?, val maintenanceFrequency: MaintenanceFrequency?) {
   val accidentFree: Boolean? = numberOfAccidents?.equals(0)
   val maintenanceScore: MaintenanceScore? = maintenanceFrequency?.let { this.mapToMaintenanceScore(it) }
 

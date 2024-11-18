@@ -4,7 +4,6 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.QueryValue
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.serde.annotation.Serdeable
-import reactor.core.publisher.Mono
 
 @Client(id = "insurance")
 interface InsuranceClient {

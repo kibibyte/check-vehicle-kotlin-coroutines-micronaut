@@ -9,7 +9,6 @@ dependencies {
 
   implementation("io.micronaut.serde:micronaut-serde-jackson")
   implementation("io.micronaut:micronaut-http-client")
-  implementation("io.micronaut.reactor:micronaut-reactor")
 
   annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
 }

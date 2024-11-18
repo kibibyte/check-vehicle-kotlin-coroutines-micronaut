@@ -7,8 +7,6 @@ import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.serde.annotation.Serdeable;
 
-import reactor.core.publisher.Mono;
-
 @Client(id = "maintenance")
 interface MaintenanceClient {
 

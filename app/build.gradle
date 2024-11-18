@@ -1,10 +1,10 @@
 plugins {
-  id("groovy")
   id("io.micronaut.application")
   id("io.micronaut.aot")
+  id("com.github.johnrengelman.shadow")
   id("org.jetbrains.kotlin.jvm")
   id("com.google.devtools.ksp")
-  id("com.github.johnrengelman.shadow")
+  id("groovy")
 }
 
 dependencies {
@@ -20,7 +20,6 @@ dependencies {
   implementation("io.micronaut:micronaut-http")
   implementation("io.micronaut.validation:micronaut-validation")
   implementation("io.micronaut.serde:micronaut-serde-jackson")
-  implementation("io.micronaut.reactor:micronaut-reactor")
 
   annotationProcessor("io.micronaut:micronaut-inject-java")
   annotationProcessor("io.micronaut.validation:micronaut-validation-processor")

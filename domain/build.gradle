@@ -7,11 +7,9 @@ plugins {
 
 dependencies {
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
-  implementation("io.micronaut.reactor:micronaut-reactor")
   implementation("org.apache.commons:commons-lang3:${commonsLang3Version}")
 
   testImplementation("org.spockframework:spock-core")
-  testImplementation("io.projectreactor:reactor-test")
 }
 
 test {
