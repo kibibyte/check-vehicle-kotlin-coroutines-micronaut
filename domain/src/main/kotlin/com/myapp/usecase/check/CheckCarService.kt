@@ -3,9 +3,6 @@ package com.myapp.usecase.check;
 import com.myapp.usecase.check.CheckCarFeature.ACCIDENT_FREE
 import com.myapp.usecase.check.CheckCarFeature.MAINTENANCE
 import jakarta.inject.Singleton
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.CoroutineStart.LAZY
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.slf4j.LoggerFactory
@@ -19,26 +16,24 @@ class CheckCarService(private val checkCarRepository: CheckCarRepository) {
   suspend fun check(checkCarQuery: CheckCarQuery): CheckCarResult = coroutineScope {
     val vin = checkCarQuery.vin
 
-    val numberOfAccidents: Deferred<Int?> =
-      if (checkCarQuery.isCheckFeature(ACCIDENT_FREE))
-        async(start = LAZY) { findNumberOfAccidents(vin) }
-      else CompletableDeferred(null as? Int)
+    val numberOfAccidents by lazy {
+      async {
+        if (checkCarQuery.isCheckFeature(ACCIDENT_FREE)) {
+          log.info("Find number of accidents requested")
+          checkCarRepository.findNumberOfAccidents(vin)
+        } else null
+      }
+    }
 
-    val maintenanceFrequency: Deferred<MaintenanceFrequency?> =
-      if (checkCarQuery.isCheckFeature(MAINTENANCE))
-        async(start = LAZY) { findMaintenanceFrequency(vin) }
-      else CompletableDeferred(null as? MaintenanceFrequency)
+    val maintenanceFrequency by lazy {
+      async {
+        if (checkCarQuery.isCheckFeature(MAINTENANCE)) {
+          log.info("Find maintenance frequency requested")
+          checkCarRepository.findMaintenanceFrequency(vin)
+        } else null
+      }
+    }
 
     CheckCarResult(vin, numberOfAccidents.await(), maintenanceFrequency.await())
-  }
-
-  private suspend fun findNumberOfAccidents(vin: String): Int? {
-    log.info("Find number of accidents requested")
-    return checkCarRepository.findNumberOfAccidents(vin)
-  }
-
-  private suspend fun findMaintenanceFrequency(vin: String): MaintenanceFrequency? {
-    log.info("Find maintenance frequency requested")
-    return checkCarRepository.findMaintenanceFrequency(vin)
   }
 }

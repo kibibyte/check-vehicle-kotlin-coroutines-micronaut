@@ -1,7 +1,7 @@
 package com.myapp.usecase.check;
 
 import com.myapp.filters.MDCFilter
-import io.micronaut.http.MediaType
+import io.micronaut.http.MediaType.APPLICATION_JSON
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
@@ -11,7 +11,7 @@ import org.slf4j.MDC
 @Controller
 open class CheckCarController(private var checkCarService: CheckCarService) {
 
-  @Post(value = "/check", consumes = [MediaType.APPLICATION_JSON], produces = [MediaType.APPLICATION_JSON])
+  @Post(value = "/check", consumes = [APPLICATION_JSON], produces = [APPLICATION_JSON])
   open suspend fun check(@Valid @Body request: CheckCarRequest): CheckCarResponse {
     val checkCarQuery = CheckCarQuery(request.vin, request.features);
 

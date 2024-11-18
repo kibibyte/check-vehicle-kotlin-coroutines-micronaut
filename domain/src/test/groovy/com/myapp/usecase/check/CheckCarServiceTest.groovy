@@ -1,7 +1,5 @@
 package com.myapp.usecase.check
 
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.EmptyCoroutineContext
 import spock.lang.Specification
 
 import static com.myapp.usecase.check.CheckCarFeature.ACCIDENT_FREE
@@ -14,24 +12,22 @@ class CheckCarServiceTest extends Specification {
   private final CheckCarService checkCarService = new CheckCarService(checkCarRepository)
 
   def "should check car with success"() {
-    def c = GroovyMock(Continuation) {
-      getContext() >> GroovyMock(EmptyCoroutineContext)
-    }
-
     when:
     def vin = "1234"
-    def checkCarQuery = new CheckCarQuery(vin, [ACCIDENT_FREE, MAINTENANCE])
-
-    //
-    CheckCarResult checkCarResult = SuspendUtils.runBlocking {
-      checkCarRepository.findNumberOfAccidents(vin, it) >> 0
-      checkCarRepository.findMaintenanceFrequency(vin, it) >> HIGH
+    def checkCarQuery = new CheckCarQuery(vin, featuresToCheck)
+    checkCarRepository.findNumberOfAccidents(vin, _) >> 0
+    checkCarRepository.findMaintenanceFrequency(vin, _) >> HIGH
+    def checkCarResult = SuspendUtils.runBlocking {
       checkCarService.check(checkCarQuery, it)
-    } as CheckCarResult
-
+    }
 
     then:
-    checkCarResult == new CheckCarResult("1234", 0, HIGH)
+    checkCarResult == expectedResult
 
+    where:
+    featuresToCheck              || expectedResult
+    [ACCIDENT_FREE, MAINTENANCE] || new CheckCarResult("1234", 0, HIGH)
+    [ACCIDENT_FREE]              || CheckCarResult.of("1234", 0)
+    [MAINTENANCE]                || CheckCarResult.of("1234", HIGH)
   }
 }

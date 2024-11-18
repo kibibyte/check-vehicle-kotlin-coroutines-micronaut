@@ -7,7 +7,7 @@ import kotlinx.coroutines.BuildersKt
 import java.util.function.Function
 
 class SuspendUtils {
-  public static <T> T runBlocking(Function<Continuation<? super T>, T> func) {
+  static <T> T runBlocking(Function<Continuation<? super T>, T> func) {
     try {
       return BuildersKt.runBlocking(
           EmptyCoroutineContext.INSTANCE,
