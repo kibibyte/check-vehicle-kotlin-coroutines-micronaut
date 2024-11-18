@@ -1,0 +1,5 @@
+rootProject.name = 'vehicle-status-kotlin-coroutines'
+include('app', 'domain', 'data')
+include 'domain:src:test:kotlin'
+findProject(':domain:src:test:kotlin')?.name = 'kotlin'
+
