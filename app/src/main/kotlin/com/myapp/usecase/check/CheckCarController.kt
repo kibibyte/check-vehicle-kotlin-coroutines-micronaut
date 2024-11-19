@@ -5,14 +5,13 @@ import io.micronaut.http.MediaType.APPLICATION_JSON
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
-import jakarta.validation.Valid
 import org.slf4j.MDC
 
 @Controller
-open class CheckCarController(private var checkCarService: CheckCarService) {
+class CheckCarController(private var checkCarService: CheckCarService) {
 
   @Post(value = "/check", consumes = [APPLICATION_JSON], produces = [APPLICATION_JSON])
-  open suspend fun check(@Valid @Body request: CheckCarRequest): CheckCarResponse {
+  suspend fun check(@Body request: CheckCarRequest): CheckCarResponse {
     val checkCarQuery = CheckCarQuery(request.vin, request.features);
 
     return checkCarService.check(checkCarQuery)
